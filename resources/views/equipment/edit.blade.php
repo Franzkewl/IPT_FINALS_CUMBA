@@ -3,5 +3,5 @@
 
 @section('content')
     <h1>Edit Equipment</h1>
-    @include('equipments._form')
+    @include('equipment._form')
 @endsection

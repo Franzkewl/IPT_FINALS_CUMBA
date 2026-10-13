@@ -21,4 +21,11 @@ class Category extends Model
     {
         return $this->hasMany(Equipment::class, 'category_id');
     }
+
+    public function refreshTotalItems(): void
+    {
+        $this->total_items = $this->equipment()->sum('quantity');
+        $this->save();
+    }
+
 }

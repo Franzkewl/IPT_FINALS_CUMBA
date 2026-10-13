@@ -86,7 +86,7 @@
 
     
     
-    <button type="submit">{{ $borrowing->exists ? 'Save' : 'Create' }}</button>
-    <a href="{{ route('borrowings.index') }}">Cancel</a>
+    <button type="submit" class="btn btn-sm btn-info">{{ $borrowing->exists ? 'Save' : 'Create' }}</button>
+    <a href="{{ route('borrowings.index') }}" class="btn btn-sm btn-danger" >Cancel</a>
 
 </form>

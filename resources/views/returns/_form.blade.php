@@ -44,28 +44,6 @@
         @enderror
     </p>
 
-    
-    <p>
-
-        <label for="late_days">Late Days:</label>
-        <input type="number" id="late_days" name="late_days"
-               value="{{ old('late_days', $return->late_days ?? 0) }}" min="0">
-        @error('late_days')
-            <br><small>{{ $message }}</small>
-        @enderror
-
-    </p>
-
-    <p>
-
-        <label for="late_fee">Late Fee:</label>
-        <input type="number" id="late_fee" name="late_fee"
-               value="{{ old('late_fee', $return->late_fee ?? 0) }}" min="0" step="0.01">
-        @error('late_fee')
-            <br><small>{{ $message }}</small>
-        @enderror
-
-    </p>
 
     <p>
         <label for="received_by">Received By:</label>
@@ -75,6 +53,6 @@
             <br><small>{{ $message }}</small>
         @enderror
 
-    <button type="submit">Save</button>
-    <a href="{{ route('returns.index') }}">Cancel</a>
+    <button type="submit" class="btn btn-sm btn-info">Save</button>
+    <a href="{{ route('returns.index') }}" class="btn btn-sm btn-danger">Cancel</a>
 </form>

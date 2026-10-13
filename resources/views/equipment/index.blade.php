@@ -3,9 +3,10 @@
 
 @section('content')
     <h1>Equipments</h1>
-    <a href="{{ route('equipments.create') }}">Add equipment</a>
+    <a href="{{ route('equipments.create') }}" class="btn btn-primary mb-3">Add Equipment</a>
 
-   <table border="1" cellpadding="5">
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
         <tr>
             <th>Name</th>
             <th>Description</th>
@@ -22,13 +23,13 @@
                 <td>{{ $equipments->quantity }}</td>
                 <td>{{ ucfirst($equipments->status) }}</td>
                 <td>
-                    <a href="{{ route('equipments.show', $equipments) }}">View</a>
-                    <a href="{{ route('equipments.edit', $equipments) }}">Edit</a>
+                    <a href="{{ route('equipments.show', $equipments) }}" class="btn btn-sm btn-info">View</a>
+                    <a href="{{ route('equipments.edit', $equipments) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form method="POST" action="{{ route('equipments.destroy', $equipments) }}"
                         onsubmit="return confirm('Delete this equipment?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
@@ -36,6 +37,6 @@
             <tr><td colspan="6">No equipment yet.</td></tr>
         @endforelse
     </table>
-
+</div>
     {{ $equipment->links() }}
 @endsection

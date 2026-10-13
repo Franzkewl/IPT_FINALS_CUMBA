@@ -27,6 +27,13 @@
                 <td>{{ $borrowing->borrowed_date?->format('Y M d') }}</td>
                 <td>{{ $borrowing->due_date?->format('Y M d') }}</td>
                 <td>{{ ucfirst($borrowing->status) }}</td>
+                <td>
+                    <a href="{{ route('borrowings.edit', $borrowing) }}">Edit</a>
+                    <form method="POST" action="{{ route('borrowings.destroy', $borrowing) }}" style="display:inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this borrowing?')">Delete</button>
+                    </form>
             </tr>
         @empty
             <tr>

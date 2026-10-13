@@ -3,5 +3,5 @@
 
 @section('content')
     <h1>New Equipment</h1>
-    @include('equipment._form', ['equipment' => new \App\Models\Equipment])
+    @include('equipment._form')
 @endsection

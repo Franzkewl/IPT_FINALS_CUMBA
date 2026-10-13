@@ -36,23 +36,24 @@
         @enderror
     </p>
     <p>
-        <label for="condition">Condition</label><br>
-        <select id="condition" name="condition">
+        <label for="status">Status</label><br>
+        <select id="status" name="status">
             @foreach (\App\Models\Equipment::CONDITIONS['status'] as $c)
-                <option value="{{ $c }}" @selected(old('condition', $equipment->condition ?? 'available') === $c)>{{ $c }}</option>
+                <option value="{{ $c }}" @selected(old('status', $equipment->status ?? 'available') === $c)>{{ $c }}</option>
             @endforeach
         </select>
-        @error('condition')
+        @error('status')
             <br><small>{{ $message }}</small>
         @enderror
+    </p>
     <p>
-        <label for="quantity_total">Total quantity</label><br>
-        <input type="number" min="1" id="quantity_total" name="quantity_total"
-               value="{{ old('quantity_total', $equipment->quantity_total) }}">
-        @error('quantity_total')
+        <label for="quantity">Total quantity</label><br>
+        <input type="number" min="1" id="quantity" name="quantity"
+               value="{{ old('quantity', $equipment->quantity) }}">
+        @error('quantity')
             <br><small>{{ $message }}</small>
         @enderror
 
-    <button type="submit">{{ $equipment->exists ? 'Save' : 'Create' }}</button>
-    <a href="{{ route('categories.index') }}">Cancel</a>
+    <button type="submit" class="btn btn-sm btn-info">{{ $equipment->exists ? 'Save' : 'Create' }}</button>
+    <a href="{{ route('equipments.index') }}" class="btn btn-sm btn-danger">Cancel</a>
 </form>

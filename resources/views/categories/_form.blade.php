@@ -21,9 +21,11 @@
             <br><small>{{ $message }}</small>
         @enderror
     </p>
+
     
-    <button type="submit">{{ $category->exists ? 'Save' : 'Create' }}</button>
-    <a href="{{ route('categories.index') }}">Cancel</a>
+    
+    <button type="submit" class="btn btn-sm btn-info">{{ $category->exists ? 'Save' : 'Create' }}</button>
+    <a href="{{ route('categories.index') }}" class="btn btn-sm btn-danger">Cancel</a>
 
     <p>
         <label for="is_active">Status</label><br>

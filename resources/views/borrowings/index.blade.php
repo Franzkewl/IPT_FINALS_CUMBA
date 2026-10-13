@@ -3,9 +3,10 @@
 
 @section('content')
     <h1>Borrowings</h1>
-    <a href="{{ route('borrowings.create') }}">Add borrowing</a>
+    <a href="{{ route('borrowings.create') }}" class="btn btn-primary mb-3">Add Borrowing</a>
 
-   <table border="1" cellpadding="5">
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
     <tr>
         <th>Student Name</th>
         <th>Equipment Name</th>
@@ -23,13 +24,13 @@
             <td>{{ $borrowing->due_date?->format('Y M d') }}</td>
             <td>{{ ucfirst($borrowing->status) }}</td>
             <td>
-                    <a href="{{ route('borrowings.show', $borrowing) }}">View</a>
-                    <a href="{{ route('borrowings.edit', $borrowing) }}">Edit</a>
+                    <a href="{{ route('borrowings.show', $borrowing) }}" class="btn btn-sm btn-info">View</a>
+                    <a href="{{ route('borrowings.edit', $borrowing) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form method="POST" action="{{ route('borrowings.destroy', $borrowing) }}"
                         onsubmit="return confirm('Delete this borrowing?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
@@ -37,6 +38,7 @@
             <tr><td colspan="6">No borrowings yet.</td></tr>
         @endforelse
     </table>
+</div> 
 
     {{ $borrowings->links() }}
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Equipment;
 use App\Models\Category;
+
 use Illuminate\Http\Request;
 
 class EquipmentController extends Controller
@@ -23,7 +24,9 @@ class EquipmentController extends Controller
     public function create()
     {
         $categories = Category::orderBy('category_name')->get();
-        return view('equipment.create', compact('categories'));
+        $equipment = new Equipment();
+
+    return view('equipment.create', compact('categories', 'equipment'));
     }
 
     /**
@@ -39,28 +42,27 @@ class EquipmentController extends Controller
             'status' => ['required', 'in:available,borrowed,maintenance'],
         ]);
 
-        Equipment::create($data);
-        
         $equipment = Equipment::create($data);
         $equipment->category->refreshTotalItems();
 
-        return redirect()->route('equipment.index')->with('success', 'Equipment created successfully.');
+        return redirect()->route('equipments.index')->with('success', 'Equipment created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Equipment $equipment)
-    {
-        return view('equipment.show', compact('equipment'));
-    }
+        {
+            $equipment->load(['category', 'borrowing.student']);
+            return view('equipment.show', compact('equipment'));
+        }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Equipment $equipment)
     {
-        $thiscategories = Category::orderBy('category_name')->get();
+        $categories = Category::orderBy('category_name')->get();
         return view('equipment.edit', compact('equipment', 'categories'));
     }
 
@@ -77,15 +79,13 @@ class EquipmentController extends Controller
             'status' => ['required', 'in:available,borrowed,maintenance'],
         ]);
 
-        $equipment->update($data);
-
         $oldCategory = $equipment->category;
         $equipment->update($data);
         $oldCategory->refreshTotalItems();
         $equipment->refresh()->category->refreshTotalItems();
 
 
-        return redirect()->route('equipment.index')->with('success', 'Equipment updated successfully.');
+        return redirect()->route('equipments.index')->with('success', 'Equipment updated successfully.');
     }
 
     /**
@@ -93,11 +93,9 @@ class EquipmentController extends Controller
      */
     public function destroy(Equipment $equipment)
     {
-        $equipment->delete();
-
         $category = $equipment->category;
         $equipment->delete();
         $category->refreshTotalItems();
-        return redirect()->route('equipment.index')->with('success', 'Equipment deleted successfully.');
+        return redirect()->route('equipments.index')->with('success', 'Equipment deleted successfully.');
     }
 }

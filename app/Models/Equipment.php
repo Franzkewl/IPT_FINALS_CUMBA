@@ -32,6 +32,6 @@ class Equipment extends Model
 
     public function borrowing()
     {
-        return $this->hasMany(Borrowing::class, 'equipment_id');
+        return $this->hasMany(Borrowing::class, 'equipment_id', 'equipment_id');
     }
 }
