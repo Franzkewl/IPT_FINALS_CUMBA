@@ -19,9 +19,9 @@
         </tr>
         @forelse ($returns as $return)
             <tr>
-                <td>{{ $return->borrowing->student->first_name ?? '-' }} {{ $return->borrowing->student->last_name ?? '' }}</td>
-                <td>{{ $return->borrowing->equipment->equipment_name ?? '-' }}</td>
-                <td>{{ $return->borrowing->due_date?->format('d M Y') }}</td>
+                <td>{{ $return->student_name ?? '-' }}</td>
+                <td>{{ $return->equipment_name ?? '-' }}</td>
+                <td>{{ $return->due_date?->format('d M Y') }}</td>
                 <td>{{ $return->returned_date?->format('d M Y') }}</td>
                 <td>{{ ucfirst($return->condition) }}</td>
                 <td>{{ $return->late_days }}</td>

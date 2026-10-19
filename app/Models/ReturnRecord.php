@@ -14,6 +14,9 @@ class ReturnRecord extends Model
 
     protected $fillable = [
         'borrowing_id',
+        'student_name',
+        'equipment_name',
+        'due_date',
         'returned_date',
         'condition',
         'late_days',
@@ -21,7 +24,7 @@ class ReturnRecord extends Model
         'received_by',
     ];
 
-    protected $casts = ['returned_date' => 'date',];
+    protected $casts = ['due_date' => 'date', 'returned_date' => 'date',];
 
     public const CONDITIONS = [
         'condition' => ['good', 'damaged', 'lost'],

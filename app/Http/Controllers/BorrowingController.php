@@ -76,11 +76,11 @@ class BorrowingController extends Controller
     {
         $data = $request->validate([
             'student_id' => ['required', 'exists:students,student_id'],
-            'equipment_id' => ['required', 'exists:equipment,equipment_id'],
+            'equipment_id' => ['required', 'exists:equipments,equipment_id'],
             'borrowed_date' => ['required', 'date'],
             'due_date' => ['required', 'date', 'after_or_equal:borrowed_date'],
             'purpose' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'in:borrowed,returned'],
+            'status' => ['required', 'in:borrowed,returned,overdue'],
             'released_by' => ['required', 'string', 'max:100'],
         ]);
 

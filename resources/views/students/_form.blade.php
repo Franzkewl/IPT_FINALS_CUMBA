@@ -78,7 +78,7 @@
     <div>
         <label for="year_level">Year Level:</label>
         <input type="number" id="year_level" name="year_level"
-               value="{{ old('year_level', $student->year_level) }}" min="1" max="5" style="width: 50px;">   
+               value="{{ old('year_level', $student->year_level) }}" min="1" max="4" style="width: 50px;">   
         @error('year_level')
             <br><small>{{ $message }}</small>
         @enderror
@@ -86,6 +86,6 @@
 
     </p>
 
-    <button type="submit" class="btn btn-sm btn-info">{{ $student->exists? 'Create' : 'Save'}}</button>
+    <button type="submit" class="btn btn-sm btn-info">{{ $student->exists? 'Save' : 'Create'}}</button>
     <a href="{{ route('students.index') }}" class="btn btn-sm btn-danger">Cancel</a>
 </form>

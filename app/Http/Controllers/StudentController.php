@@ -79,6 +79,7 @@ class StudentController extends Controller
         'last_name' => ['required', 'string', 'max:100'],
         'course' => ['required', 'string', 'max:50'],
         'year_level' => ['required', 'integer', 'between:1,4'],
+        'gender' => ['nullable', 'in:male,female,other'],
         'birthdate' => ['required', 'date'],
         'contact_number' => ['required', 'string', 'max:15',
             Rule::unique('students', 'contact_number')->ignore($student->student_id, 'student_id')],
@@ -97,6 +98,10 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
+        if ($student->borrowing()->exists()) {
+            return back()->with('error', 'Cannot delete: this student has borrowing records.');
+        }
+
         $student->delete();
 
         return redirect()->route('students.index')->with('success', 'Student deleted successfully.');

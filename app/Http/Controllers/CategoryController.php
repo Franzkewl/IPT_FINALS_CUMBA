@@ -72,6 +72,7 @@ class CategoryController extends Controller
         'category_name' => ['required', 'string', 'max:100',
             Rule::unique('categories', 'category_name')->ignore($category->category_id, 'category_id')],
         'description'   => ['nullable', 'string', 'max:500'],
+        'is_active' => ['required', 'boolean'],
     ]);
 
     $category->update($data);

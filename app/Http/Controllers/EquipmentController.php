@@ -93,9 +93,14 @@ class EquipmentController extends Controller
      */
     public function destroy(Equipment $equipment)
     {
+        if ($equipment->borrowing()->exists()) {
+            return back()->with('error', 'Cannot delete: this equipment has borrowing records.');
+        }
+
         $category = $equipment->category;
         $equipment->delete();
         $category->refreshTotalItems();
+
         return redirect()->route('equipments.index')->with('success', 'Equipment deleted successfully.');
     }
 }

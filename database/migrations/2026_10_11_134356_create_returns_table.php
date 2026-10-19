@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('returns', function (Blueprint $table) {
+        Schema::create('returns', function (Blueprint $table) { 
             $table->id('return_id');
-            $table->unsignedBigInteger('borrowing_id');
-                $table->foreign('borrowing_id')->references('borrowing_id')->on('borrowings')->cascadeOnDelete();
+            $table->string('student_name')->nullable();
+            $table->string('equipment_name')->nullable();
+            $table->unsignedBigInteger('borrowing_id')->nullable();
+                $table->foreign('borrowing_id')->references('borrowing_id')->on('borrowings')->nullOnDelete();
+            $table->date('due_date')->nullable();
             $table->date('returned_date');
             $table->enum('condition', ['good', 'damaged', 'lost'])->default('good');
             $table->unsignedInteger('late_days')->default(0);

@@ -45,22 +45,22 @@ class ReturnController extends Controller
             'received_by'   => ['required', 'string', 'max:100'],
         ]);
 
-        $borrowing = Borrowing::findOrFail($data['borrowing_id']);
+        $borrowing = Borrowing::with(['student', 'equipment'])->findOrFail($data['borrowing_id']);
 
-        if ($borrowing->status === 'returned') {
-            return back()->withErrors(['borrowing_id' => 'This borrowing was already returned.'])->withInput();
-        }
+            $due = Carbon::parse($borrowing->due_date);
+            $returned = Carbon::parse($data['returned_date']);
 
-        $due = Carbon::parse($borrowing->due_date);
-        $returned = Carbon::parse($data['returned_date']);
+            $data['late_days'] = max(0, (int) $due->diffInDays($returned, false));
+            $data['late_fee']  = $data['late_days'] * 5;
 
-        $data['late_days'] = max(0, (int) $due->diffInDays($returned, false));
-        $data['late_fee']  = $data['late_days'] * 5;     // 5 per day, change to your rate
-
-        DB::transaction(function () use ($data, $borrowing) {
-            ReturnRecord::create($data);
-            $borrowing->update(['status' => 'returned']);
-        });
+            DB::transaction(function () use ($data, $borrowing) {
+                ReturnRecord::create($data + [
+                    'student_name'   => $borrowing->student->first_name . ' ' . $borrowing->student->last_name,
+                    'equipment_name' => $borrowing->equipment->equipment_name,
+                    'due_date'       => $borrowing->due_date,
+                ]);
+                $borrowing->delete();
+            });
 
         return redirect()->route('returns.index')->with('success', 'Return recorded.');
     }
@@ -68,10 +68,9 @@ class ReturnController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ReturnRecord $returnRecord)
+    public function show(ReturnRecord $return)
     {
-        $returnRecord->load(['borrowing.student', 'borrowing.equipment']);
-        return view('returns.show', compact('returnRecord'));
+        return view('returns.show', compact('return'));
     }
 
     /**
@@ -88,28 +87,21 @@ class ReturnController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ReturnRecord $returnRecord)
+    public function update(Request $request, ReturnRecord $return)
     {
         $data = $request->validate([
-            'borrowing_id'  => ['required', 'exists:borrowings,borrowing_id'],
             'returned_date' => ['required', 'date', 'before_or_equal:today'],
-            'condition'     => ['required', 'in:good,damaged,lost'],    
-            'late_days' => ['required', 'integer', 'min:0'],
-            'late_fee'  => ['required', 'numeric', 'min:0'],
+            'condition'     => ['required', 'in:good,damaged,lost'],
             'received_by'   => ['required', 'string', 'max:100'],
         ]);
 
-        $borrowing = $returnRecord->borrowing;
-
-        $due = Carbon::parse($borrowing->due_date);
+        $due = Carbon::parse($return->due_date);
         $returned = Carbon::parse($data['returned_date']);
 
         $data['late_days'] = max(0, (int) $due->diffInDays($returned, false));
-        $data['late_fee']  = $data['late_days'] * 5;     // 5 per day, change to your rate
+        $data['late_fee']  = $data['late_days'] * 5;
 
-        DB::transaction(function () use ($data, $returnRecord) {
-            $returnRecord->update($data);
-        });
+        $return->update($data);
 
         return redirect()->route('returns.index')->with('success', 'Return record updated.');
     }
@@ -117,13 +109,9 @@ class ReturnController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ReturnRecord $returnRecord)
+    public function destroy(ReturnRecord $return)
     {
-        DB::transaction(function () use ($returnRecord) {
-            $borrowing = $returnRecord->borrowing;
-            $borrowing->update(['status' => 'borrowed']);
-            $returnRecord->delete();
-        });
+        $return->delete();
 
         return redirect()->route('returns.index')->with('success', 'Return record deleted.');
     }

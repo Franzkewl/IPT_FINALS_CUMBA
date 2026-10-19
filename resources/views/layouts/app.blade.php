@@ -22,6 +22,7 @@
             </button>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categories</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('students.index') }}">Students</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('equipments.index') }}">Equipment</a></li>

@@ -32,6 +32,7 @@
         <select id="is_active" name="is_active">
             <option value="1" @selected(old('is_active', $category->is_active) == 1)>Active</option>
             <option value="0" @selected(old('is_active', $category->is_active) == 0)>Inactive</option>
+        </select>
     </p>
 
     

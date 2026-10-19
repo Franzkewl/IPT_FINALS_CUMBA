@@ -1,15 +1,10 @@
 @extends('layouts.app')
-@section('title', $borrowing->borrowing_name)
-
+@section('title', 'Borrowing Details')
 @section('content')
-    <h1>{{ $borrowing->borrowing_name }}</h1>
-    <p>{{ $borrowing->description ?: 'No description.' }}</p>
-
-    <a href="{{ route('categories.edit', $borrowing) }}">Edit</a>
-    <a href="{{ route('categories.index') }}">Back to list</a>
-
-    <h2>Equipment in this borrowing ({{ $borrowing->equipment->count() }})</h2>
-
+    <h1>Borrowing Details</h1>
+    <p>Purpose: {{ $borrowing->purpose ?: 'No purpose.' }}</p>
+    <a href="{{ route('borrowings.edit', $borrowing) }}">Edit</a>
+    <a href="{{ route('borrowings.index') }}">Back to list</a>
     <table border="1" cellpadding="5">
         <tr>
             <th>Student Name</th>
@@ -19,26 +14,21 @@
             <th>Status</th>
             <th>Actions</th>
         </tr>
-        @forelse ($borrowing->equipment as $item)
-            <tr>
-                <td>{{ $borrowing->student->first_name ?? '-' }}
-                {{ $borrowing->student->last_name ?? '-' }}</td>
-                <td>{{ $borrowing->equipment->equipment_name ?? '-' }}</td>
-                <td>{{ $borrowing->borrowed_date?->format('Y M d') }}</td>
-                <td>{{ $borrowing->due_date?->format('Y M d') }}</td>
-                <td>{{ ucfirst($borrowing->status) }}</td>
-                <td>
-                    <a href="{{ route('borrowings.edit', $borrowing) }}">Edit</a>
-                    <form method="POST" action="{{ route('borrowings.destroy', $borrowing) }}" style="display:inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Are you sure you want to delete this borrowing?')">Delete</button>
-                    </form>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="3">No one borrowed yet.</td>
-            </tr>
-        @endforelse
+        <tr>
+            <td>{{ $borrowing->student->first_name ?? '-' }}
+            {{ $borrowing->student->last_name ?? '-' }}</td>
+            <td>{{ $borrowing->equipment->equipment_name ?? '-' }}</td>
+            <td>{{ $borrowing->borrowed_date?->format('Y M d') }}</td>
+            <td>{{ $borrowing->due_date?->format('Y M d') }}</td>
+            <td>{{ ucfirst($borrowing->status) }}</td>
+            <td>
+                <a href="{{ route('borrowings.edit', $borrowing) }}">Edit</a>
+                <form method="POST" action="{{ route('borrowings.destroy', $borrowing) }}" style="display:inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete this borrowing?')">Delete</button>
+                </form>
+            </td>
+        </tr>
     </table>
 @endsection

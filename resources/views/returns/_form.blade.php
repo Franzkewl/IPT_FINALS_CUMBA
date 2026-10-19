@@ -13,6 +13,8 @@
                     <option value="{{ $borrowing->borrowing_id }}"
                         @selected(old('borrowing_id', $return->borrowing_id ?? null) == $borrowing->borrowing_id)>
                         {{ $borrowing->student->first_name }} {{ $borrowing->student->last_name }}
+                        — {{ $borrowing->equipment->equipment_name }}
+                        (due {{ $borrowing->due_date->format('d M Y') }})
                     </option>
                 @endforeach
             </select>

@@ -18,6 +18,7 @@ class Borrowing extends Model
         'borrowed_date',
         'due_date',
         'purpose',
+        'status',
         'released_by',
     ];
 
