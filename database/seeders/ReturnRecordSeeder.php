@@ -13,7 +13,7 @@ class ReturnRecordSeeder extends Seeder
     $borrowings = Borrowing::with(['student', 'equipment'])
         ->whereIn('status', ['borrowed', 'overdue'])
         ->inRandomOrder()
-        ->limit(10)
+        ->limit(5)
         ->get();
 
     foreach ($borrowings as $borrowing) {
