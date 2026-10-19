@@ -27,7 +27,7 @@ class BorrowingFactory extends Factory
             'borrowed_date' => $borrowed,
             'due_date' => (clone $borrowed)->modify('+7 days'),
             'purpose' => $this->faker->sentence(),
-            'status' => $this->faker->randomElement(['borrowed', 'returned', 'overdue']),
+            'status' => $this->faker->randomElement(['borrowed', 'overdue']),
             'released_by' => $this->faker->name(),
         ];
     }

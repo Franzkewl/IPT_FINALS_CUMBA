@@ -40,7 +40,7 @@ class BorrowingController extends Controller
             'borrowed_date' => ['required', 'date'],
             'due_date' => ['required', 'date', 'after_or_equal:borrowed_date'],
             'purpose' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'in:borrowed,returned,overdue'],
+            'status' => ['required', 'in:borrowed,overdue'],
             'released_by' => ['required', 'string', 'max:100'],
         ]);
 
@@ -80,7 +80,7 @@ class BorrowingController extends Controller
             'borrowed_date' => ['required', 'date'],
             'due_date' => ['required', 'date', 'after_or_equal:borrowed_date'],
             'purpose' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'in:borrowed,returned,overdue'],
+            'status' => ['required', 'in:borrowed,overdue'],
             'released_by' => ['required', 'string', 'max:100'],
         ]);
 

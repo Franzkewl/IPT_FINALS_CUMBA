@@ -25,7 +25,7 @@ class Borrowing extends Model
     public $casts = ['borrowed_date' => 'date', 'due_date' => 'date'];
 
     public const STATS = [
-        'status' => ['borrowed', 'returned', 'overdue'],  
+    'status' => ['borrowed', 'overdue'],
     ];
 
     public function student()
